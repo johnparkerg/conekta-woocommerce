@@ -181,8 +181,9 @@ class WC_Conekta_Card_Gateway extends WC_Conekta_Plugin
 	            if(substr($data['token'],0,3)=='tok'){
 	            	try{
 		                $card = $customer->cards[0]->update(array('token' => $data['token']));
-		                update_user_meta( $user_id, 'conekta_card', $card);
-	                }catch (Conekta_Error $e){
+		                update_user_meta( $user_id, 'conekta_card_last4', $card->last4);
+		                update_user_meta( $user_id, 'conekta_card_brand', $card->brand);
+			}catch (Conekta_Error $e){
 		                update_user_meta( $user_id, 'conekta_latest_error', $e->getMessage());
 		            }
 	            }
