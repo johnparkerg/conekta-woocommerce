@@ -266,4 +266,16 @@ function conekta_card_add_gateway($methods) {
     return $methods;
 }
 
+function save_card_data($data){
+    if(is_user_logged_in()){
+        $user_id = get_current_user_id();
+        $card_data = get_user_meta($user_id, 'conekta_cards');
+        if(!$card_data){
+            $card_data = array();
+        }
+        $card_data[]=$data;
+        update_user_meta( $user_id, 'conekta_cards', $card_data);
+    }
+}
+add_action('conekta_successfull_card_payment','save_card_data');
 add_filter('woocommerce_payment_gateways', 'conekta_card_add_gateway');
