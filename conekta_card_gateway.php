@@ -173,6 +173,7 @@ class WC_Conekta_Card_Gateway extends WC_Conekta_Plugin
                 update_post_meta( $this->order->id, 'meses-sin-intereses', $data['monthly_installments']);
             }
             update_post_meta( $this->order->id, 'transaction_id', $this->transactionId);
+            do_action("conekta_successfull_card_payment",$data);
             return true;
 
         } catch(Conekta_Error $e) {
