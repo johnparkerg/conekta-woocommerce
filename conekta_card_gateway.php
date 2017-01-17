@@ -157,12 +157,44 @@ class WC_Conekta_Card_Gateway extends WC_Conekta_Plugin
             $items = $this->order->get_items();
             $line_items = build_line_items($items);
             $details = build_details($data, $line_items);
-
+            
+            $token = $data['token'];
+            if(is_user_logged_in()){
+	        $user_id = get_current_user_id();
+	        $customer_id = get_user_meta($user_id, 'conekta_id', true);
+	        if(!$customer_id){
+	            try{
+	                $customer = Conekta_Customer::create(array(
+                        "name"=> $data['card']['name'],
+                        "email"=> $data['card']['email'],
+                        "phone"=> $data['card']['phone'],
+                        "cards"=>  array($data['token']) 
+	                ));
+	                update_user_meta( $user_id, 'conekta_id', $customer->id);
+	                $token = $customer->id;
+	            }catch (Conekta_Error $e){
+	                update_user_meta( $user_id, 'conekta_latest_error', $e->getMessage());
+	            }
+	        }
+	        else{
+	            $customer = Conekta_Customer::find($customer_id);
+	            if(substr($data['token'],0,3)=='tok'){
+	            	try{
+		                $card = $customer->cards[0]->update(array('token' => $data['token']));
+		                update_user_meta( $user_id, 'conekta_card', $card);
+	                }catch (Conekta_Error $e){
+		                update_user_meta( $user_id, 'conekta_latest_error', $e->getMessage());
+		            }
+	            }
+	            $token = $customer->id;
+	        }
+	    }
+            
             $charge = Conekta_Charge::create(array(
                 "amount"      => $data['amount'],
                 "currency"    => $data['currency'],
                 "monthly_installments" => $data['monthly_installments'] > 1 ? $data['monthly_installments'] : null,
-                "card"        => $data['token'],
+                "card"        => $token,
                 "reference_id" => $this->order->id,
                 "description" => "Compra con orden # ". $this->order->id . " desde Woocommerce v" . $this->version,
                 "details"     => $details,
@@ -173,7 +205,6 @@ class WC_Conekta_Card_Gateway extends WC_Conekta_Plugin
                 update_post_meta( $this->order->id, 'meses-sin-intereses', $data['monthly_installments']);
             }
             update_post_meta( $this->order->id, 'transaction_id', $this->transactionId);
-            do_action("conekta_successfull_card_payment",$data);
             return true;
 
         } catch(Conekta_Error $e) {
@@ -265,36 +296,4 @@ function conekta_card_add_gateway($methods) {
     array_push($methods, 'WC_Conekta_Card_Gateway');
     return $methods;
 }
-
-function save_card_data($data){
-    if(is_user_logged_in()){
-        $user_id = get_current_user_id();
-        $customer_id = get_user_meta($user_id, 'conekta_id');
-        if(!$customer_id){
-            try{
-                $customer = Conekta_Customer::create(array(
-                "name"=> $data['card']['name'],
-                "email"=> $data['card']['email'],
-                "phone"=> $data['card']['phone'],
-                "cards"=>  array($data['token'])   //"tok_a4Ff0dD2xYZZq82d9"
-                ));
-                update_user_meta( $user_id, 'conekta_id', $customer->id);
-            }catch (Conekta_Error $e){
-                update_user_meta( $user_id, 'conekta_latest_error', $e->getMessage());
-            }
-        }
-        else{
-            if(substr($data['token'],0,3)=='tok'){
-                $customer = Conekta_Customer::find($customer_id);
-                $customer->update(
-                    array(
-                        "cards"=>  array($data['token'])
-                    )
-                );
-            }
-        }
-    }
-    
-}
-add_action('conekta_successfull_card_payment','save_card_data');
 add_filter('woocommerce_payment_gateways', 'conekta_card_add_gateway');
