@@ -280,7 +280,7 @@ function save_card_data($data){
                 ));
                 update_user_meta( $user_id, 'conekta_id', $customer->id);
             }catch (Conekta_Error $e){
-                update_user_meta( $user_id, 'conekta_latest_error', $e->getMessage(););
+                update_user_meta( $user_id, 'conekta_latest_error', $e->getMessage());
             }
         }
         else{
