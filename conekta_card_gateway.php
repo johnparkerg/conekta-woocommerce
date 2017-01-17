@@ -269,13 +269,32 @@ function conekta_card_add_gateway($methods) {
 function save_card_data($data){
     if(is_user_logged_in()){
         $user_id = get_current_user_id();
-        $card_data = get_user_meta($user_id, 'conekta_cards');
-        if(!$card_data){
-            $card_data = array();
+        $customer_id = get_user_meta($user_id, 'conekta_id');
+        if(!$customer_id){
+            try{
+                $customer = Conekta_Customer::create(array(
+                "name"=> $data['card']['name'],
+                "email"=> $data['card']['email'],
+                "phone"=> $data['card']['phone'],
+                "cards"=>  array($data['token'])   //"tok_a4Ff0dD2xYZZq82d9"
+                ));
+                update_user_meta( $user_id, 'conekta_id', $customer->id);
+            }catch (Conekta_Error $e){
+                update_user_meta( $user_id, 'conekta_latest_error', $e->getMessage(););
+            }
         }
-        $card_data[]=$data;
-        update_user_meta( $user_id, 'conekta_cards', $card_data);
+        else{
+            if(substr($data['token'],0,3)=='tok'){
+                $customer = Conekta_Customer::find($customer_id);
+                $customer->update(
+                    array(
+                        "cards"=>  array($data['token'])
+                    )
+                );
+            }
+        }
     }
+    
 }
 add_action('conekta_successfull_card_payment','save_card_data');
 add_filter('woocommerce_payment_gateways', 'conekta_card_add_gateway');
