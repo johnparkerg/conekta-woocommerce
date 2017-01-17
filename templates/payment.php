@@ -6,6 +6,14 @@
  */
 ?>
 <div class="clear"></div>
+<div class="form-row form-row-wide">
+  <label for="latest_card"><?php echo $this->lang_options["latest_card"]; ?><?php echo get_user_meta(get_current_user_id(), 'conekta_card_brand', true);?> - <?php echo get_user_meta(get_current_user_id(), 'conekta_card_last4', true);?></label>
+  <input id="latest_card" type="radio" name="latest_card" value="<?php echo get_user_meta(get_current_user_id(), 'conekta_id', true);?>" />
+</div>
+<div class="form-row form-row-wide">
+  <label for="latest_card"><?php echo $this->lang_options["new_card"]; ?></label>
+  <input id="latest_card" type="radio" name="latest_card" value="false" />
+</div>
 <span style="width: 100%; float: left; color: red;" class='payment-errors required'></span>
 <div class="form-row form-row-wide">
   <label for="conekta-card-number"><?php echo $this->lang_options["card_number"]; ?><span class="required">*</span></label>
