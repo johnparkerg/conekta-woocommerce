@@ -165,11 +165,14 @@ class WC_Conekta_Card_Gateway extends WC_Conekta_Plugin
 	        if(!$customer_id){
 	            try{
 	                $customer = Conekta_Customer::create(array(
-                        "name"=> $data['card']['name'],
-                        "email"=> $data['card']['email'],
-                        "phone"=> $data['card']['phone'],
-                        "cards"=>  array($data['token']) 
+	                "name"=> $data['card']['name'],
+	                "email"=> $data['card']['email'],
+	                "phone"=> $data['card']['phone'],
+	                "cards"=>  array($data['token']) 
 	                ));
+	                $card = $customer->cards[0];
+	                update_user_meta( $user_id, 'conekta_card_last4', $card->last4);
+		        update_user_meta( $user_id, 'conekta_card_brand', $card->brand);
 	                update_user_meta( $user_id, 'conekta_id', $customer->id);
 	                $token = $customer->id;
 	            }catch (Conekta_Error $e){
@@ -183,9 +186,9 @@ class WC_Conekta_Card_Gateway extends WC_Conekta_Plugin
 		                $card = $customer->cards[0]->update(array('token' => $data['token']));
 		                update_user_meta( $user_id, 'conekta_card_last4', $card->last4);
 		                update_user_meta( $user_id, 'conekta_card_brand', $card->brand);
-			}catch (Conekta_Error $e){
+	                }catch (Conekta_Error $e){
 		                update_user_meta( $user_id, 'conekta_latest_error', $e->getMessage());
-		            }
+		        }
 	            }
 	            $token = $customer->id;
 	        }
@@ -297,4 +300,5 @@ function conekta_card_add_gateway($methods) {
     array_push($methods, 'WC_Conekta_Card_Gateway');
     return $methods;
 }
+
 add_filter('woocommerce_payment_gateways', 'conekta_card_add_gateway');
