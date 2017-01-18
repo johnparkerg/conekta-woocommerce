@@ -19,6 +19,15 @@ jQuery(document).ready(function($) {
 		}
 		return false;
 	});
+	
+	$('body').on('change', 'input[name="latest_card"]',  function(){
+		if($(this).val()=="false"){
+			$(".payment_box.payment_method_conektacard .new-card").show();
+		}
+		else{
+			$(".payment_box.payment_method_conektacard .new-card").hide();
+		}
+	});
 
 	$('body').on('click', 'form.checkout input:submit', function(){
 		$('.woocommerce_error, .woocommerce-error, .woocommerce-message, .woocommerce_message').remove();
