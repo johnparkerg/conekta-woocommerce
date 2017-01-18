@@ -17,19 +17,19 @@
   <label for="new_card" style="display:inline"><?php echo $this->lang_options["new_card"]; ?></label>
 </div>
 <span style="width: 100%; float: left; color: red;" class='payment-errors required'></span>
-<div class="form-row form-row-wide">
+<div class="form-row form-row-wide new-card">
   <label for="conekta-card-number"><?php echo $this->lang_options["card_number"]; ?><span class="required">*</span></label>
   <input id="conekta-card-number" class="input-text" type="text" data-conekta="card[number]" />
 </div>
 
-<div class="form-row form-row-wide">
+<div class="form-row form-row-wide new-card">
   <label for="conekta-card-name"> <?php echo $this->lang_options["card_name"]; ?><span class="required">*</span></label>
   <input id="conekta-card-name" type="text" data-conekta="card[name]" class="input-text" />
 </div>
 
-<div class="clear"></div>
+<div class="clear new-card"></div>
 
-<p class="form-row form-row-first">
+<p class="form-row form-row-first new-card">
     <label for="card_expiration"><?php echo $this->lang_options["month_options"] ?> <span class="required">*</span></label>
     <select id="card_expiration" data-conekta="card[exp_month]" class="month" autocomplete="off">
              <option selected="selected" value=""><?php echo $this->lang_options["month"] ?></option>
@@ -38,7 +38,7 @@
              <?php endforeach; ?>
     </select>
 </p>
-<p class="form-row form-row-last">
+<p class="form-row form-row-last new-card">
     <label><?php echo $this->lang_options["year_options"] ?><span class="required">*</span></label>
     <select id="card_expiration_yr" data-conekta="card[exp_year]" class="year" autocomplete="off">
               <option selected="selected" value=""> <?php echo $this->lang_options["year"] ?></option>
@@ -56,9 +56,9 @@
   <input id="conekta-card-expiration" data-conekta="card[expiration]" class="input-text" type="text" autocomplete="off" placeholder="MM / YY" />
 </div>-->
 
-<div class="clear"></div>
+<div class="clear new-card"></div>
 
-<p class="form-row form-row-first">
+<p class="form-row form-row-first new-card">
     <label for="conekta-card-cvc">CVC <span class="required">*</span></label>
     <input id="conekta-card-cvc" class="input-text" type="text" maxlength="4" data-conekta="card[cvc]" value=""  style="border-radius:6px"/>
 </p>
