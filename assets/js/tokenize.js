@@ -1,4 +1,14 @@
 jQuery(document).ready(function($) {
+	$('body').on('change', 'input[name="latest_card"]',  function(){
+		console.log( $(this).val()=="false");
+		if( $(this).val()=="false"){
+			$(".payment_box.payment_method_conektacard .new-card").show();
+		}
+		else{
+			$(".payment_box.payment_method_conektacard .new-card").hide();
+		}
+	});
+	
 	Conekta.setPublishableKey(wc_conekta_params.public_key);
 
 	var $form = $('form.checkout,form#order_review');
@@ -18,15 +28,6 @@ jQuery(document).ready(function($) {
 			return true;
 		}
 		return false;
-	});
-	
-	$('body').on('change', 'input[name="latest_card"]',  function(){
-		if($(this).val()=="false"){
-			$(".payment_box.payment_method_conektacard .new-card").show();
-		}
-		else{
-			$(".payment_box.payment_method_conektacard .new-card").hide();
-		}
 	});
 
 	$('body').on('click', 'form.checkout input:submit', function(){
