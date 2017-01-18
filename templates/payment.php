@@ -6,13 +6,15 @@
  */
 ?>
 <div class="clear"></div>
-<div class="form-row form-row-wide">
-  <label for="latest_card"><?php echo $this->lang_options["latest_card"]; ?><?php echo get_user_meta(get_current_user_id(), 'conekta_card_brand', true);?> - <?php echo get_user_meta(get_current_user_id(), 'conekta_card_last4', true);?></label>
-  <input id="latest_card" type="radio" name="latest_card" value="<?php echo get_user_meta(get_current_user_id(), 'conekta_id', true);?>" />
+<style>.hidden{display:none}</style>
+<div class="form-row form-row-wide <?php if(!get_user_meta(get_current_user_id(), 'conekta_id', true)) echo 'hidden'; ?>">
+  <input id="latest_card" class="input-radio" type="radio" name="latest_card" value="<?php echo get_user_meta(get_current_user_id(), 'conekta_id', true);?>" />
+  <label for="latest_card" style="display:inline"><?php echo $this->lang_options["latest_card"]; ?><?php echo get_user_meta(get_current_user_id(), 'conekta_card_brand', true);?> - <?php echo get_user_meta(get_current_user_id(), 'conekta_card_last4', true);?></label>
+
 </div>
-<div class="form-row form-row-wide">
-  <label for="latest_card"><?php echo $this->lang_options["new_card"]; ?></label>
-  <input id="latest_card" type="radio" name="latest_card" value="false" />
+<div class="form-row form-row-wide <?php if(!get_user_meta(get_current_user_id(), 'conekta_id', true)) echo 'hidden'; ?>">
+  <input id="new_card" checked="checked" class="input-radio" type="radio" name="latest_card" value="false" />
+  <label for="new_card" style="display:inline"><?php echo $this->lang_options["new_card"]; ?></label>
 </div>
 <span style="width: 100%; float: left; color: red;" class='payment-errors required'></span>
 <div class="form-row form-row-wide">
