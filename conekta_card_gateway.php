@@ -40,10 +40,10 @@ class WC_Conekta_Card_Gateway extends WC_Conekta_Plugin
         $this->live_api_key         = $this->settings['live_api_key'];
         $this->test_publishable_key = $this->settings['test_publishable_key'];
         $this->live_publishable_key = $this->settings['live_publishable_key'];
-        $this->publishable_key      = $this->use_sandbox_api ?
+        $this->publishable_key      = ($this->use_sandbox_api || current_user_can( 'manage_woocommerce' )) ?
                                       $this->test_publishable_key :
                                       $this->live_publishable_key;
-        $this->secret_key           = $this->use_sandbox_api ?
+        $this->secret_key           = ($this->use_sandbox_api || current_user_can( 'manage_woocommerce' )) ?
                                       $this->test_api_key :
                                       $this->live_api_key;
         $this->lang_options         = parent::ckpg_set_locale_options()->
