@@ -17,7 +17,7 @@
   <label for="new_card" style="display:inline"><?php echo $this->lang_options["new_card"]; ?></label>
 </div>
 <span style="width: 100%; float: left; color: red;" class='payment-errors required'></span>
-<<<<<<< HEAD
+
 <div class="form-row form-row-wide new-card">
   <label for="conekta-card-number"><?php echo $this->lang_options["card_number"]; ?><span class="required">*</span></label>
   <input id="conekta-card-number" class="input-text" type="text" data-conekta="card[number]" />
@@ -25,27 +25,13 @@
 
 <div class="form-row form-row-wide new-card">
   <label for="conekta-card-name"> <?php echo $this->lang_options["card_name"]; ?><span class="required">*</span></label>
-=======
-<div class="form-row form-row-wide">
-  <label for="conekta-card-number"><?php echo esc_html($this->lang_options["card_number"]); ?><span class="required">*</span></label>
-  <input id="conekta-card-number" class="input-text" type="text" data-conekta="card[number]" />
-</div>
-
-<div class="form-row form-row-wide">
-  <label for="conekta-card-name"> <?php echo esc_html($this->lang_options["card_name"]); ?><span class="required">*</span></label>
->>>>>>> e6b826780af5a202db71c8951a3b7d5d174a7533
   <input id="conekta-card-name" type="text" data-conekta="card[name]" class="input-text" />
 </div>
 
 <div class="clear new-card"></div>
 
-<<<<<<< HEAD
 <p class="form-row form-row-first new-card">
-    <label for="card_expiration"><?php echo $this->lang_options["month_options"] ?> <span class="required">*</span></label>
-=======
-<p class="form-row form-row-first">
     <label for="card_expiration"><?php echo esc_html($this->lang_options["month_options"]) ?> <span class="required">*</span></label>
->>>>>>> e6b826780af5a202db71c8951a3b7d5d174a7533
     <select id="card_expiration" data-conekta="card[exp_month]" class="month" autocomplete="off">
              <option selected="selected" value=""><?php echo esc_html($this->lang_options["month"]) ?></option>
              <?php foreach($this->lang_options["card_expiration"] as $month => $description): ?>
@@ -53,13 +39,10 @@
              <?php endforeach; ?>
     </select>
 </p>
-<<<<<<< HEAD
+
 <p class="form-row form-row-last new-card">
-    <label><?php echo $this->lang_options["year_options"] ?><span class="required">*</span></label>
-=======
-<p class="form-row form-row-last">
     <label><?php echo esc_html($this->lang_options["year_options"]) ?><span class="required">*</span></label>
->>>>>>> e6b826780af5a202db71c8951a3b7d5d174a7533
+
     <select id="card_expiration_yr" data-conekta="card[exp_year]" class="year" autocomplete="off">
               <option selected="selected" value=""> <?php echo esc_html($this->lang_options["year"]) ?></option>
               <?php
