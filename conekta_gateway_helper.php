@@ -188,30 +188,17 @@ function ckpg_get_request_data($order)
     if ($order AND $order != null)
     {
         // Discount Lines
-        $order_coupons  = $order->get_items('coupon');
-        $order_fees     = $order->get_fees();
-        $discount_lines = array();
+        $order_discounts = $order->get_items(array('coupon','fee'));
+        $discount_lines  = array();
 
-        foreach($order_coupons as $index => $coupon) {
-            $discount_lines = array_merge($discount_lines,
-                array(
-                    array(
-                        'code'   => $coupon['name'],
-                        'type'   => $coupon['type'],
-                        'amount' => $coupon['discount_amount'] * 100
-                    )
-                )
-            );
-        }
-
-        foreach($order_fees as $index => $fee) {
+        foreach($order_discounts as $index => $discount) {
             if($fee['discount_amount']<0){
                 $discount_lines = array_merge($discount_lines,
                     array(
                         array(
-                            'code'   => $fee['name'],
-                            'type'   => $fee['type'],
-                            'amount' => $fee['discount_amount'] * 100
+                            'code'   => $discount['name'],
+                            'type'   => $discount['type'],
+                            'amount' => $discount['discount_amount'] * 100
                         )
                     )
                 );
