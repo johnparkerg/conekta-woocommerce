@@ -29,5 +29,7 @@
 		"new_card" => "Nueva tarjeta",
 		"month" => "Mes",
 		"year" => "Año",
-		"single_payment" => "Pago único"
+		"single_payment" => "Pago único",
+		"spei" => "Por favor realiza el pago el portal de tu banco utilizando la ficha de pago. Dale clic para generar la ficha de pago.",
+		"oxxo" => "Por favor realiza el pago en el OXXO más cercano utilizando la ficha de pago. Dale clic para generar la ficha de pago con la referencia."
 	);
