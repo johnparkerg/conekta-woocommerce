@@ -189,6 +189,7 @@ function ckpg_get_request_data($order)
     {
         // Discount Lines
         $order_coupons  = $order->get_items('coupon');
+        $order_fees     = $order->get_fees();
         $discount_lines = array();
 
         foreach($order_coupons as $index => $coupon) {
@@ -201,6 +202,20 @@ function ckpg_get_request_data($order)
                     )
                 )
             );
+        }
+
+        foreach($order_fees as $index => $fee) {
+            if($fee['discount_amount']<0){
+                $discount_lines = array_merge($discount_lines,
+                    array(
+                        array(
+                            'code'   => $fee['name'],
+                            'type'   => $fee['type'],
+                            'amount' => $fee['discount_amount'] * 100
+                        )
+                    )
+                );
+            }
         }
 
         //PARAMS VALIDATION
