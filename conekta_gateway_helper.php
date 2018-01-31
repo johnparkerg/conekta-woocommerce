@@ -38,7 +38,7 @@ function ckpg_check_balance($order, $total) {
         }
         else{
             $order['discount_lines'][0]['amount'] =
-                $order['discount_lines'][0]['amount'] + intval($adjustment);
+                $order['discount_lines'][0]['amount'] + -1*intval($adjustment);
 
             if (empty($order['discount_lines'][0]['description'])) {
                 $order['discount_lines'][0]['description'] = 'Discount Adjustment';
