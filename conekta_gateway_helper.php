@@ -43,6 +43,10 @@ function ckpg_check_balance($order, $total) {
             if (empty($order['discount_lines'][0]['description'])) {
                 $order['discount_lines'][0]['description'] = 'Discount Adjustment';
             }
+
+            if (empty($order['discount_lines'][0]['type'])) {
+                $order['discount_lines'][0]['type'] = 'coupon';
+            }
         }
     }
 
