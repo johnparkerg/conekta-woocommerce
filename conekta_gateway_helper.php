@@ -28,11 +28,21 @@ function ckpg_check_balance($order, $total) {
     if ($amount != $total) {
         $adjustment = $total - $amount;
 
-        $order['tax_lines'][0]['amount'] =
-            $order['tax_lines'][0]['amount'] + intval($adjustment);
+        if($adjustment>=0){
+            $order['tax_lines'][0]['amount'] =
+                $order['tax_lines'][0]['amount'] + intval($adjustment);
 
-        if (empty($order['tax_lines'][0]['description'])) {
-            $order['tax_lines'][0]['description'] = 'Round Adjustment';
+            if (empty($order['tax_lines'][0]['description'])) {
+                $order['tax_lines'][0]['description'] = 'Round Adjustment';
+            }
+        }
+        else{
+            $order['discount_lines'][0]['amount'] =
+                $order['discount_lines'][0]['amount'] + intval($adjustment);
+
+            if (empty($order['discount_lines'][0]['description'])) {
+                $order['discount_lines'][0]['description'] = 'Discount Adjustment';
+            }
         }
     }
 
@@ -188,21 +198,19 @@ function ckpg_get_request_data($order)
     if ($order AND $order != null)
     {
         // Discount Lines
-        $order_discounts = $order->get_items(array('coupon','fee'));
-        $discount_lines  = array();
+        $order_coupons  = $order->get_items('coupon');
+        $discount_lines = array();
 
-        foreach($order_discounts as $index => $discount) {
-            if($fee['discount_amount']<0){
-                $discount_lines = array_merge($discount_lines,
+        foreach($order_coupons as $index => $coupon) {
+            $discount_lines = array_merge($discount_lines,
+                array(
                     array(
-                        array(
-                            'code'   => $discount['name'],
-                            'type'   => $discount['type'],
-                            'amount' => $discount['discount_amount'] * 100
-                        )
+                        'code'   => $coupon['name'],
+                        'type'   => $coupon['type'],
+                        'amount' => $coupon['discount_amount'] * 100
                     )
-                );
-            }
+                )
+            );
         }
 
         //PARAMS VALIDATION
