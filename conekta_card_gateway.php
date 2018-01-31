@@ -238,8 +238,8 @@ class WC_Conekta_Card_Gateway extends WC_Conekta_Plugin
             $charge = $order->createCharge($charge_details);
             $line_items = array();
             $items = $this->order->get_items();
-            $line_items = build_line_items($items);
-            $details = build_details($data, $line_items);
+            $line_items = ckpg_build_line_items($items);
+            $details = ckpg_build_details($data, $line_items);
             
             $token = $data['token'];
             if(is_user_logged_in()){
